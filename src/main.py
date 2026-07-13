@@ -1,9 +1,25 @@
-"""Entry point for shopping-organizer."""
+import asyncio
+
+from core.browser_manager import BrowserManager
 
 
-def main() -> None:
-    print("shopping-organizer started")
+async def main() -> None:
+    browser = BrowserManager()
+
+    await browser.start()
+
+    context = await browser.new_context()
+
+    page = await context.new_page()
+
+    await page.goto("https://www.amazon.in")
+
+    print(await page.title())
+
+    await context.close()
+
+    await browser.close()
 
 
 if __name__ == "__main__":
-    main()
+    asyncio.run(main())
